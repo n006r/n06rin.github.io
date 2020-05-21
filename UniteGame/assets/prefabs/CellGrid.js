@@ -24,6 +24,7 @@ class CellGrid extends Phaser.GameObjects.Container {
 
 	// Write your code here.
 	tes() {
+		this.cellsAmount = 0;
 		const grid = this.grid;
 		for (let row = 0; row < rowsAmount; row++) {
 			grid [row] = [];
@@ -33,6 +34,7 @@ class CellGrid extends Phaser.GameObjects.Container {
 				const cell = new Cell(this.scene, x, y, getColorTextureKeyByColor(getRandomColor()));
 				this.add(cell);
 				grid[row][column] = cell;
+				this.cellsAmount += 1;
 			}
 		}
 
@@ -56,9 +58,11 @@ class CellGrid extends Phaser.GameObjects.Container {
 
 		this.userCell = grid[Math.floor(rowsAmount / 2)][Math.floor(columnsAmount / 2)];
 
-		this.userCell.setConquered();
-		this.userCell.updateColorTo(this.userCell.color);
-		this.userCell.startConquerVibe();
+		setTimeout(() => {
+			this.userCell.setConquered();
+			this.userCell.updateColorTo(this.userCell.color);
+			this.userCell.startConquerVibe();
+		}, 0);
 	}
 	/* END-USER-CODE */
 }

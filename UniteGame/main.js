@@ -9,6 +9,10 @@ window.addEventListener('load', function () {
 		scale: {
 			mode: Phaser.Scale.FIT,
 			autoCenter: Phaser.Scale.CENTER_BOTH
+		},
+		parent: 'game',
+		dom: {
+			createContainer: true
 		}
 	});
 	

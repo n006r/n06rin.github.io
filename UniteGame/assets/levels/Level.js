@@ -13,7 +13,7 @@ class Level extends Phaser.Scene {
 	editorCreate() {
 		
 		// cellGrid
-		const cellGrid = new CellGrid(this, 58.87617963536448, 92.76053807592268);
+		const cellGrid = new CellGrid(this, 89, 92.76053807592268);
 		this.add.existing(cellGrid);
 		
 		// orangeButton
@@ -44,27 +44,34 @@ class Level extends Phaser.Scene {
 	/* START-USER-CODE */
 
 	create() {
+		this.conqueredCellsCount = 0;
+		const div = document.createElement('div');
+		div.style.fontSize = '48px';
+		// div.style.width = '300px';
+		// div.style.height = '100px';
+
+		this.conquerCount = this.add.dom(50, 20, div);
+		this.conquerCount.setOrigin(0, 0);
+		this.conquerCount.setText('заражено 0');
+
+
 		this.editorCreate();
 
 		this.userCell = this.cellGrid.userCell;
 
 		this.orangeButton.on('pointerdown', () => {
-			console.log('click on orange button');
 			this.userCell.updateColorTo(COLORS.ORANGE);
 		});
 
 		this.greenButton.on('pointerdown', () => {
-			console.log('click on green button');
 			this.userCell.updateColorTo(COLORS.GREEN);
 		});
 
 		this.blueButton.on('pointerdown', () => {
-			console.log('click on blue button');
 			this.userCell.updateColorTo(COLORS.BLUE);
 		});
 
 		this.redButton.on('pointerdown', () => {
-			console.log('click on red button');
 			this.userCell.updateColorTo(COLORS.RED);
 		});
 
@@ -87,8 +94,20 @@ class Level extends Phaser.Scene {
 		// conqueredVibe();
 	}
 
+	incConqueredCellsCount() {
+		this.conqueredCellsCount += 1;
+		this.conquerCount.setText(`заражено ${this.conqueredCellsCount}`);
+
+		if (this.conqueredCellsCount === this.cellGrid.cellsAmount) {
+			setTimeout(() => {
+				this.scene.restart();
+			}, 1000)
+		}
+	}
+
 	// update() {
-	// 	console.log('hello from scene update');
+	// 	// console.log('hello from scene update');
+
 	// }
 
 	/* END-USER-CODE */

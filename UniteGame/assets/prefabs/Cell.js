@@ -63,6 +63,7 @@ class Cell extends Phaser.GameObjects.Sprite {
 
 	setConquered() {
 		this.isConquered = true;
+		this.scene.incConqueredCellsCount();
 	}
 
 	startConquerVibe() {
