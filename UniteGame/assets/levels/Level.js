@@ -13,23 +13,23 @@ class Level extends Phaser.Scene {
 	editorCreate() {
 		
 		// cellGrid
-		const cellGrid = new CellGrid(this, 89, 92.76053807592268);
+		const cellGrid = new CellGrid(this, 89, 290);
 		this.add.existing(cellGrid);
 		
 		// orangeButton
-		const orangeButton = new ChooseColorButton(this, 55, 1491, "orangeSq68px");
+		const orangeButton = new ChooseColorButton(this, 68, 1632, "orangeSq68px");
 		this.add.existing(orangeButton);
 		
 		// greenButton
-		const greenButton = new ChooseColorButton(this, 303, 1491, "greenSq68px");
+		const greenButton = new ChooseColorButton(this, 340, 1632, "greenSq68px");
 		this.add.existing(greenButton);
 		
 		// blueButton
-		const blueButton = new ChooseColorButton(this, 555.640919442562, 1495.1204910186661, "blueSq68px");
+		const blueButton = new ChooseColorButton(this, 612, 1632, "blueSq68px");
 		this.add.existing(blueButton);
 		
 		// redButton
-		const redButton = new ChooseColorButton(this, 809.4254899839597, 1497.1251759682991, "redSq68px");
+		const redButton = new ChooseColorButton(this, 884, 1632, "redSq68px");
 		this.add.existing(redButton);
 		
 		// fields
@@ -44,69 +44,85 @@ class Level extends Phaser.Scene {
 	/* START-USER-CODE */
 
 	create() {
-		this.conqueredCellsCount = 0;
-		const div = document.createElement('div');
-		div.style.fontSize = '48px';
-		// div.style.width = '300px';
-		// div.style.height = '100px';
+		this.data.set('conqueredCellsCount', 0);
+		const infectedSign = document.createElement('div');
+		infectedSign.classList.add('text', 'infected');
 
-		this.conquerCount = this.add.dom(50, 20, div);
+		this.conquerCount = this.add.dom(54, 200, infectedSign);
 		this.conquerCount.setOrigin(0, 0);
-		this.conquerCount.setText('заражено 0');
+		this.conquerCount.setText('заражено: 0');
+
+
+		this.data.events.on('changedata-conqueredCellsCount', (level, value) => {
+			this.conquerCount.setText(`заражено: ${value}`);
+
+			if (value === this.cellGrid.getData('cellsAmount')) {
+				if (!AUTOPLAY) {
+					setTimeout(() => {
+						this.scene.restart();
+					}, 1000)
+				}
+			}
+		})
 
 
 		this.editorCreate();
 
+		const level = getLevel();
+		this.cellGrid.loadLevel(level);
+
+		this.data.set('possibleUserSteps', level.minSteps.length);
+
+		const stepsDiv = document.createElement('div');
+		stepsDiv.classList.add('text', 'possibleUserSteps');
+		this.stepsCount = this.add.dom(540, 1400, stepsDiv);
+		this.stepsCount.setOrigin(0, 0);
+		this.stepsCount.setText(`шагов: ${this.data.get('possibleUserSteps')}`);
+
+		this.data.events.on('changedata-possibleUserSteps', (level, value) => {
+			console.log('changedata-possibleUserSteps ', value);
+			this.stepsCount.setText(`шагов: ${value}`);
+			if (value <= 0) {
+				if (!AUTOPLAY) {
+					setTimeout(() => {
+						this.scene.restart();
+					}, 1000)
+				}
+			}
+		})
+
 		this.userCell = this.cellGrid.userCell;
 
 		this.orangeButton.on('pointerdown', () => {
-			this.userCell.updateColorTo(COLORS.ORANGE);
+			this.onUserChangeColor(COLORS.ORANGE);
 		});
 
 		this.greenButton.on('pointerdown', () => {
-			this.userCell.updateColorTo(COLORS.GREEN);
+			this.onUserChangeColor(COLORS.GREEN);
 		});
 
 		this.blueButton.on('pointerdown', () => {
-			this.userCell.updateColorTo(COLORS.BLUE);
+			this.onUserChangeColor(COLORS.BLUE);
 		});
 
 		this.redButton.on('pointerdown', () => {
-			this.userCell.updateColorTo(COLORS.RED);
+			this.onUserChangeColor(COLORS.RED);
 		});
+	}
 
-		// const conqueredVibe = () => {
-		// 	console.log('start conquered vibe');
-		// 	this.tweens.add({
-		// 		targets: this.cellGrid.list.filter(cell => cell.isConquered),
-		// 		scaleX: 1.05,
-		// 		scaleY: 1.05,
-		// 		ease: 'Sine.easeInOut',
-		// 		// delay: i * 50,
-		// 		// repeat: -1,
-		// 		yoyo: true,
-		// 		duration: 800,
-		// 		// repeatDelay: 100,
-		// 		onComplete: conqueredVibe,
-		// 	})
-		// }
-
-		// conqueredVibe();
+	onUserChangeColor(newColor) {
+		console.log('onUserChangeColor');
+		this.userCell.setColor(newColor);
+		this.data.set('possibleUserSteps', this.data.get('possibleUserSteps') -1);
 	}
 
 	incConqueredCellsCount() {
-		this.conqueredCellsCount += 1;
-		this.conquerCount.setText(`заражено ${this.conqueredCellsCount}`);
-
-		if (this.conqueredCellsCount === this.cellGrid.cellsAmount) {
-			setTimeout(() => {
-				this.scene.restart();
-			}, 1000)
-		}
+		this.data.inc('conqueredCellsCount')
 	}
 
 	// update() {
 	// 	// console.log('hello from scene update');
+	// 	console.log('conqueredCellsCount ', this.data.get('conqueredCellsCount'))
 
 	// }
 

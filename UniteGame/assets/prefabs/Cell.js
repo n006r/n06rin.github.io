@@ -16,54 +16,56 @@ class Cell extends Phaser.GameObjects.Sprite {
 	/* START-USER-CODE */
 
 	init() {
-		this.isConquered = false;
+		this.setData('isConquered', false);
+		this.setData('color', getColorByTextureKey(this.texture.key));
+
+		this.on('changedata-isConquered', (gameObj, value, prevValue) => {
+			this.scene.incConqueredCellsCount();
+
+			if (value !== prevValue) {
+				this.startConquerVibe();
+				this.notifyNeighbors();
+			}
+		})
+		this.on('changedata-color', (gameObj, value, prevValue) => {
+			this.setTexture(getColorTextureKeyByColor(value));
+
+			if (value !== prevValue) {
+				this.startConquerVibe();
+				this.notifyNeighbors();
+			}
+		})
+
+
 		this.neighbors = [];
 	}
 
-	get color() {
-		const textureKey = this.texture.key;
-		return getColorByTextureKey(textureKey);
-	}
-
 	neighborCellUpdated(newColor, isConquered) {
-		if (newColor === this.color || this.isConquered && isConquered) {
-			this.upd(newColor, isConquered)
-		}
-	}
-	
-	upd(newColor, isConquered) {
-		let updated = false;
-		if (!this.isConquered && isConquered) {
-			this.setConquered();
-			updated = true;
-		}
-		if (this.color !== newColor) {
-			this.updateColorTo(newColor);
-			updated = true;
-		}
-		if (updated) {
-			this.startConquerVibe();
-			this.notifyNeighbors();
+		const selfColor = this.getData('color');
+		const selfIsConquered = this.getData('isConquered');
+		if (newColor === selfColor || selfIsConquered && isConquered) {
+			if (!selfIsConquered && isConquered) {
+				this.setConquered();
+			}
+			if (selfColor !== newColor) {
+				this.setColor(newColor);
+			}
 		}
 	}
 
-	updateColorTo(color) {
-		const oldColor = this.color;
-		this.setTexture(getColorTextureKeyByColor(color));
-		this.notifyNeighbors();
+	setColor(newColor) {
+		this.setData('color', newColor);
+	}
+	setConquered() {
+		this.setData('isConquered', true);
 	}
 
 	notifyNeighbors() {
 		setTimeout(() => {
 			this.neighbors.forEach(neighbor => {
-				neighbor.neighborCellUpdated(this.color, this.isConquered);
+				neighbor.neighborCellUpdated(this.getData('color'), this.getData('isConquered'));
 			})
 		}, 50)
-	}
-
-	setConquered() {
-		this.isConquered = true;
-		this.scene.incConqueredCellsCount();
 	}
 
 	startConquerVibe() {

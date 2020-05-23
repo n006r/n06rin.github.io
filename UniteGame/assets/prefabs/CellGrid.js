@@ -1,9 +1,6 @@
 
 // You can write more code here
 
-const rowsAmount = 13;
-const columnsAmount = 13;
-
 /* START OF COMPILED CODE */
 
 class CellGrid extends Phaser.GameObjects.Container {
@@ -16,25 +13,29 @@ class CellGrid extends Phaser.GameObjects.Container {
 		this.cellTextrures = [];
 		this.grid = [];
 		
-		this.tes();
+		this.init();
 		
 	}
 	
 	/* START-USER-CODE */
 
 	// Write your code here.
-	tes() {
-		this.cellsAmount = 0;
+	init() {
+		
+	}
+
+	loadLevel(level) {
+		this.setData('cellsAmount', 0);
 		const grid = this.grid;
-		for (let row = 0; row < rowsAmount; row++) {
+		for (let row = 0; row < level.rowsAmount; row++) {
 			grid [row] = [];
-			for (let column = 0; column < columnsAmount; column++) {
+			for (let column = 0; column < level.columnsAmount; column++) {
 				const x = row * (68 + 7);
 				const y = column * (68 + 7);
-				const cell = new Cell(this.scene, x, y, getColorTextureKeyByColor(getRandomColor()));
+				const cell = new Cell(this.scene, x, y, getColorTextureKeyByColor(level.grid[row][column].color));
 				this.add(cell);
 				grid[row][column] = cell;
-				this.cellsAmount += 1;
+				this.incData('cellsAmount');
 			}
 		}
 
@@ -60,8 +61,6 @@ class CellGrid extends Phaser.GameObjects.Container {
 
 		setTimeout(() => {
 			this.userCell.setConquered();
-			this.userCell.updateColorTo(this.userCell.color);
-			this.userCell.startConquerVibe();
 		}, 0);
 	}
 	/* END-USER-CODE */

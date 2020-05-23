@@ -9,7 +9,7 @@
         "preloadMethodName": "",
         "preloadPackFiles": [],
         "createMethodName": "",
-        "prefabInitMethodName": "tes",
+        "prefabInitMethodName": "init",
         "borderWidth": 975,
         "borderHeight": 975
     },

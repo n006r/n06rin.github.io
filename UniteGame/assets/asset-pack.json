@@ -45,6 +45,16 @@
                 "url": "assets/blueSq68px.png",
                 "type": "image",
                 "key": "blueSq68px"
+            },
+            {
+                "url": "assets/levelGenerator.js",
+                "type": "script",
+                "key": "levelGenerator"
+            },
+            {
+                "url": "assets/generatedLevels.js",
+                "type": "script",
+                "key": "generatedLevels"
             }
         ]
     },
