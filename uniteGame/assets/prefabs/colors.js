@@ -6,10 +6,14 @@ const COLORS = {
 }
 
 const CELL_COLOR = {
-	ORANGE: 'orangeSq68px',
-	BLUE: 'blueSq68px',
-	GREEN: 'greenSq68px',
-	RED: 'redSq68px',
+    // ORANGE: 'orangeSq68x73',
+	// BLUE: 'blueSq68x73',
+	// GREEN: 'greenSq68x73',
+	// RED: 'redSq68x73',
+	ORANGE: 'orangeSq68x68Illustr',
+	BLUE: 'blueSq68x68Illustr',
+	GREEN: 'greenSq68x68Illustr',
+	RED: 'redSq68x68Illustr',
 }
 
 let COLOR_BY_TEXTURE_KEY = {};

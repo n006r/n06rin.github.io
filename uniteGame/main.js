@@ -120,9 +120,9 @@ class Boot extends Phaser.Scene {
 	}
 
 	create() {
-		
+		this.registry.set('map', 0);
 		this.scene.start("Level");
-		console.log('LEVEL SCENE IS ', this.scene.get('Level'));
+		// console.log('LEVEL SCENE IS ', this.scene.get('Level'));
 		// this.scene.get('Level').events.on('create', onGameCreate)
 		this.scene.get('Level').events.on('mapApplied', onGameCreate);
 	}

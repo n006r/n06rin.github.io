@@ -73,9 +73,8 @@ class Level extends Phaser.Scene {
 				if (!AUTOPLAY) {
 					setTimeout(() => {
 						console.log('COMPLETE LEVEL');
-						// this.data.events.removeAllListeners();
-						// this.scene.restart();
 						clearTimeout(this.gameOverTimeout);
+						this.registry.inc('map');
 						this.applyMap();
 					}, 1000)
 				}
@@ -94,8 +93,43 @@ class Level extends Phaser.Scene {
 		scoresText.setText(`очки: ${this.data.get('score')}`);
 		scoresText.setOrigin(0, 0);
 		this.ui.add(scoresText);
+
+
+		const progressBar = this.add.graphics();
+		const updateProgressBar = (percent) => {
+			progressBar.clear();
+			progressBar.fillStyle(0x6E00FA, 1);
+			progressBar.fillRect(54, 215, (cellGridWidth / 100) * percent, 30);
+		}
+		// const progressBox = this.add.graphics();
+		// progressBox.fillStyle(0x222222, 0.8);
+		// progressBox.fillRect(0, 0, 1080, 50);
+
+		// let scoresToNextLevel = 169;
+		this.data.set('scoresToNextLevel', 169);
+
+		const cellGridWidth = (68 + 7) * 13 - 7;
+
 		this.data.events.on('changedata-score', (level, value) => {
 			scoresText.setText(`очки: ${value}`);
+
+			if (value >= this.data.get('scoresToNextLevel')) {
+				// setTimeout(() => {
+					const newScoresToNextLevel = this.data.get('scoresToNextLevel') * (this.registry.get('map') + 1);
+					console.log('newScoresToNextLevel');
+					console.log('newScoresToNextLevel');
+					console.log('newScoresToNextLevel');
+					console.log('newScoresToNextLevel');
+					console.log('newScoresToNextLevel');
+					console.log('newScoresToNextLevel');
+					console.log(newScoresToNextLevel);
+					this.data.set('scoresToNextLevel', newScoresToNextLevel);
+				// 	updateProgressBar(value / (newScoresToNextLevel / 100));
+				// })
+			}
+			const percent = value / (this.data.get('scoresToNextLevel') / 100);
+
+			updateProgressBar(percent);
 		})
 
 		const steps = new Phaser.GameObjects.DOMElement(this, 540, 1400, (() => {
@@ -109,6 +143,7 @@ class Level extends Phaser.Scene {
 
 		const gameOverModal = new GameOverModal(this, 0, 0, () => {
 			console.log('on restart button click!');
+			this.registry.set('map', 0);
 			this.applyMap();
 			gameOverModal.x = 3000;
 		});
@@ -153,12 +188,13 @@ class Level extends Phaser.Scene {
 
 	applyMap() {
 		this.registry.set('mode', 'applying map');
-		// const level = getLevel();
 		let map;
 		if (AUTOPLAY) {
 			map = SAVED_LEVEL;
 		} else {
-			map = MAPS.shift();
+			const mapNumber = this.registry.get('map');
+			console.log('loading map ', mapNumber);
+			map = MAPS[mapNumber];
 		}
 		this.cellGrid.loadLevel(map);
 		this.data.set('possibleUserSteps', map.minSteps.length);

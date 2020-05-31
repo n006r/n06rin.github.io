@@ -65,6 +65,51 @@
                 "url": "assets/ui/gameOver.html",
                 "type": "html",
                 "key": "gameOver"
+            },
+            {
+                "url": "assets/greenSq91x110.png",
+                "type": "image",
+                "key": "greenSq91x110"
+            },
+            {
+                "url": "assets/blueSq68x73.png",
+                "type": "image",
+                "key": "blueSq68x73"
+            },
+            {
+                "url": "assets/greenSq68x73.png",
+                "type": "image",
+                "key": "greenSq68x73"
+            },
+            {
+                "url": "assets/redSq68x73.png",
+                "type": "image",
+                "key": "redSq68x73"
+            },
+            {
+                "url": "assets/orangeSq68x73.png",
+                "type": "image",
+                "key": "orangeSq68x73"
+            },
+            {
+                "url": "assets/blueSq68x68Illustr.png",
+                "type": "image",
+                "key": "blueSq68x68Illustr"
+            },
+            {
+                "url": "assets/greenSq68x68Illustr.png",
+                "type": "image",
+                "key": "greenSq68x68Illustr"
+            },
+            {
+                "url": "assets/orangeSq68x68Illustr.png",
+                "type": "image",
+                "key": "orangeSq68x68Illustr"
+            },
+            {
+                "url": "assets/redSq68x68Illustr.png",
+                "type": "image",
+                "key": "redSq68x68Illustr"
             }
         ]
     },

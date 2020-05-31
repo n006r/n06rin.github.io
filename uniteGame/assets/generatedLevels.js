@@ -34,7 +34,8 @@ const MAPS = JSON.parse(`[
             [{"color":"ORANGE"},{"color":"RED"},{"color":"RED"},{"color":"BLUE"},{"color":"GREEN"},{"color":"GREEN"},{"color":"ORANGE"},{"color":"GREEN"},{"color":"ORANGE"},{"color":"RED"},{"color":"ORANGE"},{"color":"RED"},{"color":"BLUE"}]
         ]
     }, {
-        "minSteps":["BLUE","RED","ORANGE","GREEN","BLUE","RED","ORANGE","BLUE","GREEN","RED"],
+        "minSteps":["RED", "GREEN", "ORANGE", "BLUE", "ORANGE", "GREEN", "BLUE", "ORANGE", "GREEN", "BLUE", "GREEN", "BLUE", "RED", "BLUE", "RED", "GREEN", "ORANGE"],
+        "unused_minSteps":["BLUE","RED","ORANGE","GREEN","BLUE","RED","ORANGE","BLUE","GREEN","RED"],
         "grid":[
             [{"color":"GREEN"},{"color":"BLUE"},{"color":"RED"},{"color":"BLUE"},{"color":"GREEN"},{"color":"GREEN"},{"color":"ORANGE"},{"color":"BLUE"},{"color":"GREEN"},{"color":"GREEN"},{"color":"BLUE"},{"color":"RED"},{"color":"ORANGE"}],
             [{"color":"ORANGE"},{"color":"BLUE"},{"color":"ORANGE"},{"color":"GREEN"},{"color":"GREEN"},{"color":"ORANGE"},{"color":"GREEN"},{"color":"RED"},{"color":"ORANGE"},{"color":"ORANGE"},{"color":"RED"},{"color":"RED"},{"color":"BLUE"}],
